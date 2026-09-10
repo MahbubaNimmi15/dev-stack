@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
@@ -35,7 +37,9 @@ function App() {
     )
 
     if (alreadyAdded) {
-      alert("This technology is already in your stack.")
+      toast.warning(
+        `${technology.name} is already in your stack.`
+      )
       return
     }
 
@@ -43,6 +47,40 @@ function App() {
       ...selectedTechnologies,
       technology,
     ])
+
+    toast.success(
+      `${technology.name} added to your stack.`
+    )
+  }
+
+  const handleRemoveTechnology = (id: string) => {
+    const technology = selectedTechnologies.find(
+      (item) => item.id === id
+    )
+
+    const updatedStack = selectedTechnologies.filter(
+      (item) => item.id !== id
+    )
+
+    setSelectedTechnologies(updatedStack)
+
+    if (technology) {
+      toast.info(
+        `${technology.name} removed from your stack.`
+      )
+    }
+  }
+
+  const handleRemoveAll = () => {
+    if (selectedTechnologies.length === 0) {
+      return
+    }
+
+    setSelectedTechnologies([])
+
+    toast.info(
+      "All technologies removed from your stack."
+    )
   }
 
   return (
@@ -83,12 +121,19 @@ function App() {
             <div className="lg:col-span-1">
               <YourStack
                 selectedTechnologies={selectedTechnologies}
+                onRemoveTechnology={handleRemoveTechnology}
+                onRemoveAll={handleRemoveAll}
               />
             </div>
 
           </div>
         )}
       </main>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+      />
     </>
   )
 }
