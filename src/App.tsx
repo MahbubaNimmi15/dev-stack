@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar"
 import Hero from "./components/Hero"
 import TechnologyList from "./components/TechnologyList"
 import YourStack from "./components/YourStack"
+import Footer from "./components/Footer"
 
 import type { Technology } from "./types/technology"
 
@@ -129,6 +130,8 @@ function App() {
           </div>
         )}
       </main>
+
+      <Footer />
 
       <ToastContainer
         position="top-right"
